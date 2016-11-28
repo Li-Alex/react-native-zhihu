@@ -5,32 +5,20 @@ import {
   Text,
   View
 } from 'react-native';
+import {ArticleList} from './src/articleList.js'
+
 
 export default class test extends Component {
     constructor(props){
         super(props)
         this.state = {
-            result: null
+
         }
     }
   render() {
-    let newsUrl = 'http://news-at.zhihu.com/api/4/news/latest'
-    fetch(newsUrl).then(res => {
-      return res.json()
-    }).then(data => {
-      this.setState({
-        result: JSON.stringify(data)
-      })
-    }).catch(err => {
-      console.log('err: ' + err)
-    })
     return (
         <View style={styles.container}>
-            <Text style={styles.welcome}>
-                {newsUrl}
-                {this.state.result}
-
-            </Text>
+          <ArticleList />
         </View>
     );
   }
