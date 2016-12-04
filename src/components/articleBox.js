@@ -3,8 +3,10 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	Image
+	Image,
+	TouchableOpacity
 } from 'react-native'
+import {ArticleDetail} from './articleDetail'
 
 export class ArticleBox extends React.Component{
 	constructor(props){
@@ -13,16 +15,33 @@ export class ArticleBox extends React.Component{
 
 		}
 	}
-	render(){
+	_getDetail (){
+		let id = this.props.item.id
+		let navigator = this.props.navigator
+		if(navigator) {
+            navigator.push({
+            	index: 1,
+                name: 'articleDetail',
+                component: ArticleDetail,
+                navigator: navigator,
+                params: {
+                	id: id
+                }
+            })
+        }
+	}
+	render () {
 		let item = this.props.item
 		return(
-			<View style={styles.articleBox}>
-				<View style={styles.text}>
-					<Text>{item.title}</Text>
-				</View>
-				<View style={styles.imageBox}>
-					<Image source={{uri: item.images[0]}} style={styles.image} />
-				</View>
+			<View>
+				<TouchableOpacity style={styles.articleBox} onPress={this._getDetail.bind(this)}>
+					<View style={styles.text}>
+						<Text>{item.title}</Text>
+					</View>
+					<View style={styles.imageBox}>
+						<Image source={{uri: item.images[0]}} style={styles.image} />
+					</View>
+				</TouchableOpacity>
 			</View>
 		)
 	}
@@ -34,21 +53,34 @@ let styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		height: 80,
+		marginTop: 10,
+		paddingLeft: 10,
+		paddingRight: 10,
+		paddingTop: 5,
+		paddingBottom: 5,
 		maxWidth: 750,
 		backgroundColor: '#fff',
+		borderWidth: 1,
+		borderRadius: 6,
+		borderStyle: 'solid',
+		borderColor: 'rgba(0,0,0,.1)'
 	},
 	text: {
-		height: 80,
-		backgroundColor: 'blue'
+		flexWrap: 'wrap',
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingRight: 5,
+		maxWidth: 240,
+		height: 80
 	},
 	imageBox: {
-		width:120,
+		flexDirection: 'row',
+		width:80,
 		height:80
 	},
 	image: {
-		backgroundColor: 'red',
-		width: 120,
+		width: 80,
 		height: 80,
+		borderRadius: 10
 	}
 })

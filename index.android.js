@@ -3,22 +3,35 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  StatusBar,
+  Navigator
 } from 'react-native';
 import {ArticleList} from './src/articleList.js'
 
-
-export default class test extends Component {
+export default class App extends Component {
     constructor(props){
         super(props)
         this.state = {
-
+          
         }
     }
   render() {
     return (
         <View style={styles.container}>
-          <ArticleList />
+          <StatusBar
+            hidden={true}
+          />
+          <Navigator 
+            initialRoute={{name:'index',index:0,component: ArticleList}}
+            configureScene={(route) => {
+              return Navigator.SceneConfigs.FloatFromRight;
+            }}
+            renderScene={(route,navigator) => {
+              let Component = route.component;
+              return <Component {...route.params} navigator={navigator} />
+            }}
+          />
         </View>
     );
   }
@@ -27,21 +40,10 @@ export default class test extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    overflow: 'scroll'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    alignItems: 'center'
+  }
 });
 
-AppRegistry.registerComponent('test', () => test);
+AppRegistry.registerComponent('test', () => App);
